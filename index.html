@@ -336,17 +336,17 @@ body{
 
 <script>
 const EIXOS = [
-  {code:'E01',name:'Governança e Gestão Estratégica para o Desenvolvimento Econômico',items:9},
-  {code:'E02',name:'Lideranças Locais e Articulação com Parceiros',items:7},
-  {code:'E03',name:'Simplificação Regulatória e Governo Digital para Empresas',items:7},
-  {code:'E04',name:'Ambiente de Serviços ao Empreendedor',items:7},
-  {code:'E05',name:'Acesso a Mercados e Financiamento',items:7},
-  {code:'E06',name:'Educação Empreendedora e Desenvolvimento de Talentos',items:7},
-  {code:'E07',name:'Inclusão Socioprodutiva',items:7},
-  {code:'E08',name:'Identidade Territorial, Vocações Econômicas e Atratividade',items:7},
-  {code:'E09',name:'Fomento ao Ecossistema de Inovação',items:11},
-  {code:'E10',name:'Sustentabilidade e Resiliência Climática no Ambiente de Negócios',items:8},
-  {code:'E11',name:'Valor Público, Risco e Sustentabilidade Fiscal',items:9},
+  {code:'E01',name:'Governança e Gestão Estratégica para o Desenvolvimento Econômico',short:'Governança',items:9},
+  {code:'E02',name:'Lideranças Locais e Articulação com Parceiros',short:'Lideranças',items:7},
+  {code:'E03',name:'Simplificação Regulatória e Governo Digital para Empresas',short:'Simplificação',items:7},
+  {code:'E04',name:'Ambiente de Serviços ao Empreendedor',short:'Empreendedor',items:7},
+  {code:'E05',name:'Acesso a Mercados e Financiamento',short:'Mercados',items:7},
+  {code:'E06',name:'Educação Empreendedora e Desenvolvimento de Talentos',short:'Educação',items:7},
+  {code:'E07',name:'Inclusão Socioprodutiva',short:'Inclusão',items:7},
+  {code:'E08',name:'Identidade Territorial, Vocações Econômicas e Atratividade',short:'Identidade',items:7},
+  {code:'E09',name:'Fomento ao Ecossistema de Inovação',short:'Inovação',items:11},
+  {code:'E10',name:'Sustentabilidade e Resiliência Climática no Ambiente de Negócios',short:'Sustentabilidade',items:8},
+  {code:'E11',name:'Valor Público, Risco e Sustentabilidade Fiscal',short:'Valor Público',items:9},
 ];
 
 // Default demo scores (visually interesting, not perfect)
@@ -446,8 +446,9 @@ function resetScores(){
 function drawRadar(){
   const svg=document.getElementById('radarSvg');
   svg.innerHTML='';
-  const W=560, H=540;
-  const cx=W/2, cy=H/2-10;
+  const W=600, H=600;
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  const cx=W/2, cy=H/2;
   const R=200;
   const N=EIXOS.length;
   const rings=[25,50,75,100];
@@ -536,7 +537,7 @@ function drawRadar(){
   // Axis labels
   for(let i=0;i<N;i++){
     const a=angle(i);
-    const labelR=R+36;
+    const labelR=R+46;
     const lx=cx+Math.cos(a)*labelR;
     const ly=cy+Math.sin(a)*labelR;
 
@@ -560,6 +561,17 @@ function drawRadar(){
     });
     scoreT.textContent=scores[i];
     svg.appendChild(scoreT);
+
+    // Short name under score
+    const nameT=el('text',{
+      x:lx,y:ly+25,
+      'text-anchor':'middle','dominant-baseline':'middle',
+      'font-size':'7.5','font-family':'DM Sans,sans-serif',
+      fill:'rgba(200,220,255,.65)',
+      'font-weight':'500',
+    });
+    nameT.textContent=EIXOS[i].short;
+    svg.appendChild(nameT);
   }
 
   // Center label
